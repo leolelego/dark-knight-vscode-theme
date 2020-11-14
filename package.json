@@ -1,0 +1,21 @@
+{
+    "name": "dark-knight",
+    "displayName": "Dark Knight",
+    "description": "A Simple and colorful dark theme",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.51.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "Dark Knight",
+                "uiTheme": "vs-dark",
+                "path": "./themes/Dark Knight-color-theme.json"
+            }
+        ]
+    }
+}
