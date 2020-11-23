@@ -1,0 +1,160 @@
+# fastlane_version "1..0"
+default_platform :ios
+versionMajor = "5.0"
+apple_id = "apple@wisimage.com"
+product_name = "Clinical Reality"
+
+###############
+#  FASTLANE   #
+###############
+platform :ios do
+  
+  # Global Variables
+  appVersion = "#{versionMajor}.#{number_of_commits}"
+  scheme = "Develop"
+  app_identifier = "com.elcompanies.clinique.clinical-reality-dev"
+
+  before_all do
+    setup_ci(force:true)
+    ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT']='2000'
+  end
+  # Main Process
+  lane :process do |options|
+    xcode_select("/Applications/Xcode_12.app")
+    brch = options[:branch] ? options[:branch] : git_branch
+
+    case brch
+    when "master"
+      scheme = "Production"
+      app_identifier = "com.elcompanies.clinique.clinical-reality"      
+    when "qa"
+      scheme = "QA"
+      app_identifier = "com.elcompanies.clinique.clinical-reality-qa"
+    else
+      #develop
+      scheme = "Develop"
+      app_identifier = "com.elcompanies.clinique.clinical-reality-dev"
+    end
+    if ["master","qa","develop"].include? brch
+      version
+    end
+    #carthage(platform:"iOS")
+    # Workarround for xcode 12
+    sh 'cd ..;./cart.sh bootstrap --platform iOS'
+    certificates
+    build_app(scheme: scheme,silent:true,export_method:"enterprise",configuration: scheme)
+
+    if ["master"].include? brch
+      update_changelog
+    end
+    if ["master","qa","develop"].include? brch
+      publish
+    end
+    if ["master","qa"].include? brch
+      tag
+    end
+
+  end
+
+  lane :update_changelog do 
+    original_file = '../README.md'
+    new_file = original_file + '.new'
+    time = Time.now
+    File.open(new_file, 'w') do |fo|
+      fo.puts "[v#{appVersion}] - (#{time.strftime("%Y-%m-%d")}) \n---"
+      File.foreach(original_file) do |li|
+        fo.puts li
+      end
+    end
+    File.rename(new_file, original_file)
+  end
+  # Standard Methods
+  lane :message do |options|
+    mess = "🚀CR #{scheme} [#{last_git_commit[:abbreviated_commit_hash]}]\n#{product_name} (v#{get_version_number(target:product_name)}) → #{options[:data]}"
+    ifttt(
+      api_key: "riW4oHAEENwbf0uroFooe",
+      event_name: "fastlane",
+      value1: mess
+    )
+
+    
+  end
+
+  lane :certificates do 
+    ENV["MATCH_FORCE_ENTERPRISE"] = "1"
+    keychain_name =  "githubActionKeyChain"
+    keychain_pass =  "ILikeBigButs69"
+    create_keychain(
+      name: keychain_name,
+      password: keychain_pass,
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      lock_when_sleeps: false
+    )
+    match(type:"enterprise",
+    readonly:true,
+    clone_branch_directly:true,
+    app_identifier: ["com.elcompanies.clinique.clinical-reality-dev",
+    "com.elcompanies.clinique.clinical-reality-qa",
+    "com.elcompanies.clinique.clinical-reality",],
+    username:apple_id,
+    team_id:"32V97V6BWT",
+    git_branch: "WISIMAGEENT",
+    shallow_clone: true,
+    # output_path:"certs",
+    keychain_name: keychain_name,
+    keychain_password: keychain_pass
+    )
+  end
+
+  lane :getcertificates do 
+    ENV["MATCH_FORCE_ENTERPRISE"] = "1"
+    match(type:"enterprise",
+    readonly:false,
+    clone_branch_directly:true,
+    app_identifier: ["com.elcompanies.clinique.clinical-reality-dev",
+    "com.elcompanies.clinique.clinical-reality-qa",
+    "com.elcompanies.clinique.clinical-reality",],
+    username:apple_id,
+    team_id:"32V97V6BWT",
+    git_branch: "WISIMAGEENT",
+    shallow_clone: true,
+    # output_path:"certs"
+    )
+  end
+  
+  lane :version do 
+    if scheme != "Production"
+      version_number = appVersion + "_" + scheme
+    else
+      version_number = appVersion
+    end 
+
+    increment_version_number(version_number:version_number)
+    increment_build_number(build_number: number_of_commits)
+  end
+  
+  lane :publish do |options|
+    appcenter_upload(
+        api_token: "f165e09bf4eda1eea46c8114f7f190f002379eb4",
+        owner_name: "WISIMAGE-Apps",
+        app_name: "Clinical-Reality",
+        ipa:"Clinical Reality.ipa",
+        dsym:"Clinical Reality.app.dSYM.zip",
+        destinations:scheme,
+        release_notes:sh("cat ../README.md"),
+        notify_testers: true, # Set to false if you don't want to notify testers of your new release (default: `false`)
+     )
+  end
+  
+  lane :tag do |options|
+    version =  get_version_number(target:product_name)
+    add_git_tag(tag: "v#{version}")
+    push_git_tags(tag:"v#{version}")
+  end
+
+  error do |lane, exception|
+    message(target:"All",data:"CI Failed\n\n#{exception.message}")
+  end
+end

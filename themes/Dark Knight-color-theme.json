@@ -25,21 +25,22 @@
 		  // Dropdown
 		  "dropdown.background": "#000",
 		  "dropdown.foreground": "#C50847",
-		  "dropdown.border": "#161616",
+		  "dropdown.border": "#daaa01",
 		  // Input
-		  "input.background": "#0D0E0F",
+		  "input.background": "#27180e",
 		  "input.foreground": "#fff",
-		  "input.border": "#0D0E0F",
-		  "input.placeholderForeground": "#0Dfff0E0F",
-		  "inputOption.activeBorder": "#2AA298",
+		  "input.border": "#daaa01",
+			"checkbox.border": "#daaa01",
+		  "input.placeholderForeground": "#C50847",
+		  "inputOption.activeBorder": "#da1a01",
 		  "inputValidation.infoBorder": "#D0D0D0",
-		  "inputValidation.infoBackground": "#0D0E0F",
+		  "inputValidation.infoBackground": "#0579ec",
 		  "inputValidation.warningBackground": "#daaa01",
 		  "inputValidation.warningBorder": "#E0AF02",
 		  "inputValidation.errorBackground": "#f76e6e",
 		  "inputValidation.errorBorder": "#de3d3b",
 		  // Badge
-		  "badge.background": "#2AA298",
+		  "badge.background": "#C50847",
 		  "badge.foreground": "#F0F0F0",
 		  // Progress Bar
 		  "progressBar.background": "#2AA298",
@@ -88,16 +89,16 @@
 		  "editorCursor.foreground": "#c00b44",
 		  "editorLineNumber.foreground": "#c00b44",
 		  "editorLineNumber.activeForeground": "#000",
-		  "editor.selectionBackground": "#1F4680",
-		  "editor.selectionHighlightBackground": "#339cec33",
+		  "editor.selectionBackground": "#0d326993",
+		  "editor.selectionHighlightBackground": "#eca23328",
 		  "editor.wordHighlightBackground": "#339cec33",
 		  "editor.wordHighlightStrongBackground": "#007dd659",
-		  "editor.findMatchBackground": "#54E2FF",
-		  "editor.findMatchHighlightBackground": "#54E2FF",
-		  "editor.findRangeHighlightBackground": "#54E2FF",
-		  "editor.hoverHighlightBackground": "#54E2FF",
+		  "editor.findMatchBackground": "#0a515f",
+		  "editor.findMatchHighlightBackground": "#0a515f",
+		  "editor.findRangeHighlightBackground": "#0a515f44",
+		  "editor.hoverHighlightBackground": "#0a515f",
 		  "editor.lineHighlightBackground": "#0D0E0F",
-		  "editor.rangeHighlightBackground": "#54E2FF",
+		  "editor.rangeHighlightBackground": "#0a515f",
 		  "editorWhitespace.foreground": "#2f3031",
 		  "editorIndentGuide.background": "#353738",
 		  "editorCodeLens.foreground": "#403f53",
@@ -108,19 +109,19 @@
 		  "editorWarning.foreground": "#daaa01",
 		  "editorWarning.border": "#daaa01",
 		  "editorGutter.addedBackground": "#49d0c5",
-		  "editorGutter.modifiedBackground": "#6fbef6",
+		  "editorGutter.modifiedBackground": "#0D0E0F",
 		  "editorGutter.deletedBackground": "#f76e6e",
 		  "editorRuler.foreground": "#0D0E0F",
 		  "editorOverviewRuler.errorForeground": "#E64D49",
 		  "editorOverviewRuler.warningForeground": "#daaa01",
 		  // Editor Widget
 		  "editorWidget.background": "#0D0E0F",
-		  "editorWidget.border": "#0D0E0F",
+		  "editorWidget.border": "#C50847",
 		  "editorSuggestWidget.background": "#0D0E0F",
 		  "editorSuggestWidget.foreground": "#AA0D91",
 		  "editorSuggestWidget.highlightForeground": "#AA0D91",
-		  "editorSuggestWidget.selectedBackground": "#d3e8f8",
-		  "editorSuggestWidget.border": "#0D0E0F",
+		  "editorSuggestWidget.selectedBackground": "#f76e6e",
+		  "editorSuggestWidget.border": "#C50847",
 		  "editorHoverWidget.background": "#0D0E0F",
 		  "editorHoverWidget.border": "#241c1d",
 		  "debugExceptionWidget.background": "#F0F0F0",
@@ -139,7 +140,7 @@
 		  // Status Bar
 		  "statusBar.background": "#0D0E0F",
 		  "statusBar.border": "#58031a",
-		  "statusBar.debuggingBackground": "#F0F0F0",
+		  "statusBar.debuggingBackground": "#0D0E0F",
 		  "statusBar.debuggingForeground": "#8a8a8a",
 		  "statusBar.foreground": "#a5a5a5",
 		  "statusBar.noFolderBackground": "#0D0E0F",
@@ -200,7 +201,7 @@
 				"string constant.other.placeholder"
 			],
 			"settings": {
-				"foreground": "#624F83"
+				"foreground": "#ffffff"
 			}
 		},
 		{
@@ -230,6 +231,7 @@
 				"storage.modifier"
 			],
 			"settings": {
+				"fontStyle": "bold",
 				"foreground": "#ee0000"
 			}
 		},
@@ -250,6 +252,7 @@
 				"keyword.other.substitution"
 			],
 			"settings": {
+				"fontStyle": "bold",
 				"foreground": "#53d6d6"
 			}
 		},
